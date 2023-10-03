@@ -1,42 +1,55 @@
 package web.dao;
+
+
 import org.springframework.stereotype.Repository;
 import web.model.User;
 import javax.persistence.*;
-import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@Transactional
 public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Override
-    public User getUserById(Long id) {
-        return entityManager.find(User.class, id);
-    }
-
-    @Override
+    List<User> users = new ArrayList<>();
     public List<User> getAllUsers() {
-        return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
+        String HQL = "from User";
+        users = entityManager.createQuery(HQL, User.class).getResultList();
+        return users;
     }
 
-    @Override
-    public void addUser(User user) {
-        entityManager.persist(user);
-    }
-
-    @Override
-    public void updateUser(User user) {
-        entityManager.merge(user);
-    }
-
-    @Override
-    public void deleteUser(Long id) {
+    public User getUser(long id) {
         User user = entityManager.find(User.class, id);
-        if (user != null) {
-            entityManager.remove(user);
-        }
+        return user;
     }
+
+    public void save(User user) {
+        entityManager.persist(user);
+        entityManager.flush();
+
+    }
+
+    public void delete(long id) {
+        User user = entityManager.find(User.class, id);
+        entityManager.remove(user);
+        entityManager.flush();
+    }
+
+    public void update(long id, User updatedUser) {
+        User user = entityManager.find(User.class, id);
+        user.setName(updatedUser.getName());
+        user.setAge(updatedUser.getAge());
+        entityManager.merge(user);
+        entityManager.flush();
+    }
+
+
+
+
 }
+
+
+
+
