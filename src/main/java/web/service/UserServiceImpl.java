@@ -8,6 +8,7 @@ import web.model.User;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
@@ -17,10 +18,12 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
+    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public User getUser(long id) {
         return userDao.getUser(id);
@@ -39,7 +42,7 @@ public class UserServiceImpl implements UserService {
         userDao.delete(id);
     }
 
-    @Transactional//todo: @Transactional размещается тогда - над классом ..на методах где не используем -  @Transactional(..readOnly)
+    @Transactional
     @Override
     public void update(long id, User updatedUser) {
         userDao.update(id, updatedUser);

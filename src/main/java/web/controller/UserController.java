@@ -39,24 +39,28 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}/edit")
-	public String edit(Model model, @PathVariable("id") long id) {
-		model.addAttribute("user", userService.getUser(id));//todo: если User c указанным id нет? Валидация отсутствует, хотябы на паре методов - нужно обозначить
+	public String edit(Model model, @RequestParam("id") long id) {
+		User user = userService.getUser(id);
+		if (user == null) {
+			return "redirect:/users";
+		}
+		model.addAttribute("user", userService.getUser(id));
 		return "users/edit";
 	}
 
 	@PatchMapping("/{id}")
-	public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
+	public String update(@ModelAttribute("user") User user, @RequestParam("id") long id) {
 		userService.update(id, user);
 		return "redirect:/users";
 	}
 
 	@DeleteMapping("/{id}")
-	public String delete(@PathVariable("id") long id) {
+	public String delete(@RequestParam("id") long id) {
+		User user = userService.getUser(id);
+		if (user == null) {
+			return "redirect:/users";
+		}
 		userService.delete(id);
 		return "redirect:/users";
-		//todo: syntax.. лучше сразу привыкать к cleanCode, отступам.. лишние пробелы и др..
 	}
-
-	//todo: на фронте - очень хорошо, если .css подтягивается на страницу
-	//todo: в POM-нике ..похоже подтянуто лишнего (все библиотеки используются?..)
 }
