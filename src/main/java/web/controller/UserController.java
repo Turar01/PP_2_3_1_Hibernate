@@ -38,7 +38,7 @@ public class UserController {
 		return "redirect:/users";
 	}
 
-	@GetMapping("/{id}/edit")
+	@GetMapping("/edit")
 	public String edit(Model model, @RequestParam("id") long id) {
 		User user = userService.getUser(id);
 		if (user == null) {
@@ -49,13 +49,13 @@ public class UserController {
 	}
 
 	@PatchMapping("/{id}")
-	public String update(@ModelAttribute("user") User user, @RequestParam("id") long id) {
+	public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
 		userService.update(id, user);
 		return "redirect:/users";
 	}
 
 	@DeleteMapping("/{id}")
-	public String delete(@RequestParam("id") long id) {
+	public String delete(@PathVariable("id") long id) {
 		User user = userService.getUser(id);
 		if (user == null) {
 			return "redirect:/users";
@@ -63,4 +63,6 @@ public class UserController {
 		userService.delete(id);
 		return "redirect:/users";
 	}
+
+
 }
