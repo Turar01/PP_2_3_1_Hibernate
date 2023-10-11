@@ -40,13 +40,12 @@ public class UserController {
 
 	@GetMapping("/{id}/edit")
 	public String edit(Model model, @PathVariable("id") long id) {
-		model.addAttribute("user", userService.getUser(id));
+		model.addAttribute("user", userService.getUser(id));//todo: если User c указанным id нет? Валидация отсутствует, хотябы на паре методов - нужно обозначить
 		return "users/edit";
 	}
 
 	@PatchMapping("/{id}")
 	public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
-
 		userService.update(id, user);
 		return "redirect:/users";
 	}
@@ -55,6 +54,9 @@ public class UserController {
 	public String delete(@PathVariable("id") long id) {
 		userService.delete(id);
 		return "redirect:/users";
-
+		//todo: syntax.. лучше сразу привыкать к cleanCode, отступам.. лишние пробелы и др..
 	}
+
+	//todo: на фронте - очень хорошо, если .css подтягивается на страницу
+	//todo: в POM-нике ..похоже подтянуто лишнего (все библиотеки используются?..)
 }

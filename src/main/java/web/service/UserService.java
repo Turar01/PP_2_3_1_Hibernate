@@ -7,6 +7,7 @@ import java.util.List;
 
 @Component
 public interface UserService {
+
     List<User> getAllUsers();
 
     User getUser(long id);

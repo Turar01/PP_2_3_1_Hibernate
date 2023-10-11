@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
         userDao.delete(id);
     }
 
-    @Transactional
+    @Transactional//todo: @Transactional размещается тогда - над классом ..на методах где не используем -  @Transactional(..readOnly)
     @Override
     public void update(long id, User updatedUser) {
         userDao.update(id, updatedUser);

@@ -15,13 +15,13 @@ public class UserDaoImpl implements UserDao {
 
     List<User> users = new ArrayList<>();
     public List<User> getAllUsers() {
-        String HQL = "from User";
+        String HQL = "from User";//todo: имеет смысл, тогда вынести в класс. Дать логически понятное наименование
         users = entityManager.createQuery(HQL, User.class).getResultList();
         return users;
     }
 
     public User getUser(long id) {
-        User user = entityManager.find(User.class, id);
+        User user = entityManager.find(User.class, id);//todo: IDE подсказывает - inline
         return user;
     }
 
